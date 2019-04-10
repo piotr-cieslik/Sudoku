@@ -26,8 +26,7 @@ class Cell:
   def discard_values(self, values):
     for value in values:
       if(value in self.__possible):
-        continue
-      self.__possible.remove(value)
+        self.__possible.remove(value)
   
   def has_value(self):
     return self.__value != None
@@ -42,7 +41,7 @@ class Slice:
     self.__cells = cells
 
   def discard_used_values(self):
-    values = list(self.__values)
+    values = list(self.__values())
     for cell in self.__cells:
       cell.discard_values(values)
 
@@ -90,6 +89,11 @@ class Sudoku:
   def rows(self):
     for ri in range(0, 9):
       yield self.row(ri)
+
+  def calculate_values(self):
+    for row in self.cells:
+      for cell in row:
+        cell.calculate_value()
   
   def print(self):
     for row in self.cells:
@@ -119,5 +123,13 @@ class SudokuFromFile:
     return sudoku
 
 sudoku = SudokuFromFile("sudoku.txt").load()
+
+for column in sudoku.columns():
+  column.discard_used_values()
+for row in sudoku.rows():
+  row.discard_used_values()
+
+sudoku.calculate_values()
+
 sudoku.print()
 print(sudoku.number_of_known_values())
