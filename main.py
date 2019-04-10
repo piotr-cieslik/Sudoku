@@ -41,33 +41,26 @@ class Board:
   # 7 8 9
   # def square(self, number):
 
-sudokuAsText = "\
-2 3|5  |   \n\
-4  |9  | 5 \n\
- 25|   |  1\n\
----|---|---\n\
-   |   |   \n\
-   |   |   \n\
-   |   |   \n\
----|---|---\n\
-   |   |   \n\
-   |   |   \n\
-   |   |   \n"
+class BoardFromFile:
+  def __init__(self, file_name):
+    self.file_name = file_name
+  
+  def load(self):
+    board = Board()
+    with open(self.file_name) as f:
+      rowIndex = 0
+      for line in f:
+        columnIndex = 0
+        for value in line:
+          # Convert cell into the number and add it to row
+          if(value.isdigit()):
+            board.set(rowIndex, columnIndex, int(value))
+          if(value.isdigit() or value == " "):
+            columnIndex+=1
+        # If line contains any value, increment row index
+        if(columnIndex != 0):
+          rowIndex += 1
+    f.close()
+    return board
 
-board = Board()
-rowIndex = 0
-for row in sudokuAsText.splitlines():
-  # Skip cells containing separator
-  if(row[0] == "-"):
-    continue
-  # New row
-  columnIndex = 0
-  for value in row:
-    # Skip cells containing separator
-    if(value == "|"):
-      continue
-    # Convert cell into the number and add it to row
-    if(value != " "):
-      board.set(rowIndex, columnIndex, int(value))
-    columnIndex+=1
-  rowIndex += 1
+board = BoardFromFile("sudoku.txt").load()
