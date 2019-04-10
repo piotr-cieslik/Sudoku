@@ -1,5 +1,6 @@
 from functools import reduce
 
+# Represents single cell of sudoku
 class Cell:
   def __init__(self, value):
     self.value = value
@@ -17,9 +18,19 @@ class Row:
   def __init__(self, cells):
     self.cells = cells
 
+  def values(self):
+    for cell in self.cells:
+      if(cell.has_value()):
+        yield cell.value
+
 class Column:
   def __init__(self, cells):
     self.cells = cells
+
+  def values(self):
+    for cell in self.cells:
+      if(cell.has_value()):
+        yield cell.value
 
 class Square:
   def __init__(self, cells):
@@ -43,6 +54,27 @@ class Sudoku:
       lambda sum, row: len(list(filter(lambda x: x.has_value(), row))) + sum,
       self.cells,
       0)
+
+  # Returns column of specific index (zero based)
+  def column(self, index):
+    cells = []
+    for ri in range(0, 9):
+      cells.append(self.cells[ri][index])
+    return Column(cells)
+
+  # Returns all columns
+  def columns(self):
+    for ci in range(0, 9):
+      yield self.column(ci)
+
+  # Returns row of specific index (zero based)
+  def row(self, index):
+    return Row(self.cells[index])
+
+  # Returns all rows
+  def rows(self):
+    for ri in range(0, 9):
+      yield Row(ri)
   
   def print(self):
     for row in self.cells:
