@@ -1,12 +1,33 @@
 from functools import reduce
 
 # Represents single cell of sudoku
+# Contains specific value or list of possible values.
 class Cell:
-  def __init__(self, value):
-    self.__value = value
+  def __init__(self):
+    self.__value = None
+    self.__possible = list(range(1, 10))
 
   def set(self, value):
     self.__value = value
+    self.__possible = []
+
+  # Returns value of cell or None if not set
+  def value(self):
+    return self.__value
+  
+  # Set value if not set, and it's only one possible value
+  def calculate_value(self):
+    if(self.has_value()):
+      return
+    if(len(self.__possible) == 1):
+      self.set(self.__possible[0])
+
+  # Removes values from list of possible values
+  def discard_values(self, values):
+    for value in values:
+      if(value in self.__possible):
+        continue
+      self.__possible.remove(value)
   
   def has_value(self):
     return self.__value != None
@@ -21,7 +42,7 @@ class Row:
   def values(self):
     for cell in self.cells:
       if(cell.has_value()):
-        yield cell.value
+        yield cell.value()
 
 class Column:
   def __init__(self, cells):
@@ -30,7 +51,7 @@ class Column:
   def values(self):
     for cell in self.cells:
       if(cell.has_value()):
-        yield cell.value
+        yield cell.value()
 
 class Square:
   def __init__(self, cells):
@@ -42,7 +63,7 @@ class Sudoku:
     for _ in range(0, 9):
       row = []
       for _ in range(0, 9):
-        cell = Cell(None)
+        cell = Cell()
         row.append(cell)
       self.cells.append(row)
 
