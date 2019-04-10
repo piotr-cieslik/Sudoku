@@ -122,7 +122,7 @@ class SudokuFromFile:
     f.close()
     return sudoku
 
-sudoku = SudokuFromFile("sudoku.txt").load()
+sudoku = SudokuFromFile("sudoku_3_missing.txt").load()
 
 for column in sudoku.columns():
   column.discard_used_values()
