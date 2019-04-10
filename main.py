@@ -8,6 +8,9 @@ class Cell:
   def has_value(self):
     return self.value != None
 
+  def __str__(self):
+    return str(self.value) if self.has_value() else " "
+
 class Row:
   def __init__(self, cells):
     self.cells = cells
@@ -34,12 +37,10 @@ class Board:
   def set(self, row, column, value):
     self.cells[row][column].set(value)
 
-  # Square represents 3x3 subgrid
-  # Each sudoku has 9 squares
-  # 1 2 3
-  # 4 5 6
-  # 7 8 9
-  # def square(self, number):
+  def print(self):
+    for row in self.cells:
+      line = "".join(map(lambda x: str(x), row))
+      print("|" + line + "|\n")
 
 class BoardFromFile:
   def __init__(self, file_name):
@@ -64,3 +65,4 @@ class BoardFromFile:
     return board
 
 board = BoardFromFile("sudoku.txt").load()
+board.print()
