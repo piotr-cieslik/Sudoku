@@ -1,3 +1,5 @@
+from functools import reduce
+
 class Cell:
   def __init__(self, value):
     self.value = value
@@ -36,6 +38,12 @@ class Sudoku:
   def set(self, row, column, value):
     self.cells[row][column].set(value)
 
+  def number_of_known_values(self):
+    return reduce(
+      lambda sum, row: len(list(filter(lambda x: x.has_value(), row))) + sum,
+      self.cells,
+      0)
+  
   def print(self):
     for row in self.cells:
       line = "".join(map(lambda x: str(x), row))
@@ -65,3 +73,4 @@ class SudokuFromFile:
 
 sudoku = SudokuFromFile("sudoku.txt").load()
 sudoku.print()
+print(sudoku.number_of_known_values())
