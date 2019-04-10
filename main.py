@@ -3,16 +3,16 @@ from functools import reduce
 # Represents single cell of sudoku
 class Cell:
   def __init__(self, value):
-    self.value = value
+    self.__value = value
 
   def set(self, value):
-    self.value = value
+    self.__value = value
   
   def has_value(self):
-    return self.value != None
+    return self.__value != None
 
   def __str__(self):
-    return str(self.value) if self.has_value() else " "
+    return str(self.__value) if self.has_value() else " "
 
 class Row:
   def __init__(self, cells):
