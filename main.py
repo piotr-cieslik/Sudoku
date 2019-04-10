@@ -23,8 +23,7 @@ class Square:
   def __init__(self, cells):
     self.cells = cells
 
-# Main class that represents sudoku board.
-class Board:
+class Sudoku:
   def __init__(self):
     self.cells=[]
     for _ in range(0, 9):
@@ -42,12 +41,12 @@ class Board:
       line = "".join(map(lambda x: str(x), row))
       print("|" + line + "|\n")
 
-class BoardFromFile:
+class SudokuFromFile:
   def __init__(self, file_name):
     self.file_name = file_name
   
   def load(self):
-    board = Board()
+    sudoku = Sudoku()
     with open(self.file_name) as f:
       rowIndex = 0
       for line in f:
@@ -55,14 +54,14 @@ class BoardFromFile:
         for value in line:
           # Convert cell into the number and add it to row
           if(value.isdigit()):
-            board.set(rowIndex, columnIndex, int(value))
+            sudoku.set(rowIndex, columnIndex, int(value))
           if(value.isdigit() or value == " "):
             columnIndex+=1
         # If line contains any value, increment row index
         if(columnIndex != 0):
           rowIndex += 1
     f.close()
-    return board
+    return sudoku
 
-board = BoardFromFile("sudoku.txt").load()
-board.print()
+sudoku = SudokuFromFile("sudoku.txt").load()
+sudoku.print()
