@@ -35,27 +35,21 @@ class Cell:
   def __str__(self):
     return str(self.__value) if self.has_value() else " "
 
-class Row:
+# Represents the 9 element slice of sudoku.
+# It can be column, row or 3x3 square.
+class Slice:
   def __init__(self, cells):
-    self.cells = cells
+    self.__cells = cells
 
-  def values(self):
-    for cell in self.cells:
+  def discard_used_values(self):
+    values = list(self.__values)
+    for cell in self.__cells:
+      cell.discard_values(values)
+
+  def __values(self):
+    for cell in self.__cells:
       if(cell.has_value()):
         yield cell.value()
-
-class Column:
-  def __init__(self, cells):
-    self.cells = cells
-
-  def values(self):
-    for cell in self.cells:
-      if(cell.has_value()):
-        yield cell.value()
-
-class Square:
-  def __init__(self, cells):
-    self.cells = cells
 
 class Sudoku:
   def __init__(self):
@@ -81,7 +75,7 @@ class Sudoku:
     cells = []
     for ri in range(0, 9):
       cells.append(self.cells[ri][index])
-    return Column(cells)
+    return Slice(cells)
 
   # Returns all columns
   def columns(self):
@@ -90,12 +84,12 @@ class Sudoku:
 
   # Returns row of specific index (zero based)
   def row(self, index):
-    return Row(self.cells[index])
+    return Slice(self.cells[index])
 
   # Returns all rows
   def rows(self):
     for ri in range(0, 9):
-      yield Row(ri)
+      yield self.row(ri)
   
   def print(self):
     for row in self.cells:
