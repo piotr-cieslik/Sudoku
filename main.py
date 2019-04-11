@@ -71,6 +71,25 @@ class Sudoku:
       0)
 
   def solve(self):
+    while self.number_of_known_values() != 81:
+      before = self.number_of_known_values()
+      self.__iteration()
+      after = self.number_of_known_values()
+      if(before == after):
+        return False
+    return True
+  
+  def print(self):
+    for row in self.cells:
+      line = "".join(map(lambda x: str(x), row))
+      print("|" + line + "|\n")
+
+  # Single iteration of solve algorithm.
+  # Go through each column and discard values from cells.
+  # Go through each row and discard values from cells.
+  # Go through each square and discard values from cells.
+  # Set values in cells with sigle available value.
+  def __iteration(self):
     for column in self.__columns():
       column.discard_used_values()
     for row in self.__rows():
@@ -78,11 +97,6 @@ class Sudoku:
     for square in self.__squares():
       square.discard_used_values()
     self.__calculate_values()
-  
-  def print(self):
-    for row in self.cells:
-      line = "".join(map(lambda x: str(x), row))
-      print("|" + line + "|\n")
 
   # Returns column of specific index (zero based)
   def __column(self, index):
