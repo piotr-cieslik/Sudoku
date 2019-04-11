@@ -1,4 +1,5 @@
 from functools import reduce
+import math
 
 # Represents single cell of sudoku
 # Contains specific value or list of possible values.
@@ -74,6 +75,8 @@ class Sudoku:
       column.discard_used_values()
     for row in self.__rows():
       row.discard_used_values()
+    for square in self.__squares():
+      square.discard_used_values()
     self.__calculate_values()
   
   def print(self):
@@ -101,6 +104,24 @@ class Sudoku:
   def __rows(self):
     for ri in range(0, 9):
       yield self.__row(ri)
+
+  # Return 3x3 square of sudoku.
+  # Squares are numbered like
+  # 0 | 1 | 2
+  # 3 | 4 | 5
+  # 6 | 7 | 8
+  def __square(self, index):
+    row = index % 3
+    column = math.floor(index / 3)
+    cells = []
+    for ri in range(0, 3):
+      for ci in range(0,3):
+        cells.append(self.cells[row * 3 + ri][column * 3 + ci])
+    return Slice(cells)
+
+  def __squares(self):
+    for s in range(0, 9):
+      yield self.__square(s)
 
   def __calculate_values(self):
     for row in self.cells:
