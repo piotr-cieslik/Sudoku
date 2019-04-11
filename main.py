@@ -164,7 +164,6 @@ class SudokuFromFile:
     f.close()
     return sudoku
 
-sudoku = SudokuFromFile("sudoku_3_missing.txt").load()
+sudoku = SudokuFromFile("sudoku_very_easy.txt").load()
 sudoku.solve()
 sudoku.print()
-print(sudoku.number_of_known_values())
