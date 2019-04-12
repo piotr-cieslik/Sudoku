@@ -16,12 +16,29 @@ class Cell:
   def value(self):
     return self.__value
   
-  # Set value if not set, and it's only one possible value
-  def calculate_value(self):
+  # Calculates value of the cell.
+  # Algorithm:
+  #   - Do nothing when cell value is already set.
+  #   - If single available value left, this value will be set as cell value.
+  #   - If more than one value is available, check if one of the available values
+  #     is unique in slice (column, row, square). If available value is unique,
+  #     this value will be set as cell value.
+  def calculate_value(self, cells_of_slice):
     if(self.has_value()):
       return
     if(len(self.__possible) == 1):
       self.set(self.__possible[0])
+      return
+    for possible in self.__possible:
+      unique = True
+      for cell_of_slice in cells_of_slice:
+        if(self is cell_of_slice):
+          continue
+        if(possible in cell_of_slice.__possible):
+          unique = False
+      if(unique):
+        self.set(self.__possible[0])
+        return
 
   # Removes values from list of possible values
   def discard_values(self, values):
@@ -45,6 +62,10 @@ class Slice:
     values = list(self.__values())
     for cell in self.__cells:
       cell.discard_values(values)
+
+  def calculate_values(self):
+    for cell in self.__cells:
+      cell.calculate_value(self.__cells)
 
   def __values(self):
     for cell in self.__cells:
@@ -85,10 +106,6 @@ class Sudoku:
       print("|" + line + "|\n")
 
   # Single iteration of solve algorithm.
-  # Go through each column and discard values from cells.
-  # Go through each row and discard values from cells.
-  # Go through each square and discard values from cells.
-  # Set values in cells with sigle available value.
   def __iteration(self):
     for column in self.__columns():
       column.discard_used_values()
@@ -96,7 +113,12 @@ class Sudoku:
       row.discard_used_values()
     for square in self.__squares():
       square.discard_used_values()
-    self.__calculate_values()
+    for column in self.__columns():
+      column.calculate_values()
+    for row in self.__rows():
+      row.calculate_values()
+    for square in self.__squares():
+      square.calculate_values()
 
   # Returns column of specific index (zero based)
   def __column(self, index):
@@ -137,11 +159,6 @@ class Sudoku:
     for s in range(0, 9):
       yield self.__square(s)
 
-  def __calculate_values(self):
-    for row in self.cells:
-      for cell in row:
-        cell.calculate_value()
-
 class SudokuFromFile:
   def __init__(self, file_name):
     self.file_name = file_name
@@ -164,6 +181,6 @@ class SudokuFromFile:
     f.close()
     return sudoku
 
-sudoku = SudokuFromFile("sudoku_very_easy.txt").load()
+sudoku = SudokuFromFile("sudoku_easy.txt").load()
 sudoku.solve()
 sudoku.print()
