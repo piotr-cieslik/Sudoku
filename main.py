@@ -181,6 +181,6 @@ class SudokuFromFile:
     f.close()
     return sudoku
 
-sudoku = SudokuFromFile("sudoku_easy.txt").load()
+sudoku = SudokuFromFile("sudoku_hard.txt").load()
 sudoku.solve()
 sudoku.print()
