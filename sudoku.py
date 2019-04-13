@@ -17,9 +17,6 @@ class Sudoku:
         row.append(cell)
       self.cells.append(row)
 
-  def set(self, row, column, value):
-    self.cells[row][column].set(value)
-
   def solve(self):
     while True:
       new_value_found = self.__iteration()
