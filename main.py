@@ -37,7 +37,7 @@ class Cell:
         if(possible in cell_of_slice.__possible):
           unique = False
       if(unique):
-        self.set(self.__possible[0])
+        self.set(possible)
         return
 
   # Removes values from list of possible values
