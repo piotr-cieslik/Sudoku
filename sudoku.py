@@ -2,20 +2,18 @@ import math
 from cell import Cell
 from slice import Slice
 
-# It's possible to pass array of arrays (9x9) to constructor.
+# Pass the array of arrays (9x9) with initial values of sudoku.
 # Missing sudoku values should be indicated by None values.
-# The values from arrays will be used to prefill sudoku.
 class Sudoku:
-  def __init__(self, *args):
+  def __init__(self, array):
     self.cells=[]
     for ri in range(0, 9):
       row = []
       for ci in range(0, 9):
         cell = Cell()
-        if(len(args) == 1):
-          value = args[0][ri][ci]
-          if(value != None):
-            cell.set(value)
+        value = array[0][ri][ci]
+        if(value != None):
+          cell.set(value)
         row.append(cell)
       self.cells.append(row)
 
