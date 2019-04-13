@@ -1,4 +1,3 @@
-from functools import reduce
 import math
 
 # Represents single cell of sudoku
@@ -17,6 +16,7 @@ class Cell:
     return self.__value
   
   # Calculates value of the cell.
+  # Returns True when value was set or False when not.
   # Algorithm:
   #   - Do nothing when cell value is already set.
   #   - If single available value left, this value will be set as cell value.
@@ -28,7 +28,7 @@ class Cell:
       return
     if(len(self.__possible) == 1):
       self.set(self.__possible[0])
-      return
+      return True
     for possible in self.__possible:
       unique = True
       for cell_of_slice in cells_of_slice:
@@ -38,7 +38,8 @@ class Cell:
           unique = False
       if(unique):
         self.set(possible)
-        return
+        return True
+    return False
 
   # Removes values from list of possible values
   def discard_values(self, values):
@@ -63,9 +64,12 @@ class Slice:
     for cell in self.__cells:
       cell.discard_values(values)
 
-  def calculate_values(self):
+  # Returns true when value found, returns false otherwise.
+  def calculate_value(self):
     for cell in self.__cells:
-      cell.calculate_value(self.__cells)
+      if(cell.calculate_value(self.__cells)):
+        return True
+    return False
 
   def __values(self):
     for cell in self.__cells:
@@ -85,20 +89,12 @@ class Sudoku:
   def set(self, row, column, value):
     self.cells[row][column].set(value)
 
-  def number_of_known_values(self):
-    return reduce(
-      lambda sum, row: len(list(filter(lambda x: x.has_value(), row))) + sum,
-      self.cells,
-      0)
-
   def solve(self):
-    while self.number_of_known_values() != 81:
-      before = self.number_of_known_values()
-      self.__iteration()
-      after = self.number_of_known_values()
-      if(before == after):
-        return False
-    return True
+    while True:
+      new_value_found = self.__iteration()
+      if(new_value_found):
+        continue
+      return
   
   def print(self):
     for row in self.cells:
@@ -114,11 +110,15 @@ class Sudoku:
     for square in self.__squares():
       square.discard_used_values()
     for column in self.__columns():
-      column.calculate_values()
+      if(column.calculate_value()):
+        return True
     for row in self.__rows():
-      row.calculate_values()
+      if(row.calculate_value()):
+        return True
     for square in self.__squares():
-      square.calculate_values()
+      if(square.calculate_value()):
+        return True
+    return False
 
   # Returns column of specific index (zero based)
   def __column(self, index):
