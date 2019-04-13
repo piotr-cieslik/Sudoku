@@ -34,11 +34,6 @@ class Sudoku:
       for ci in range(0, 9):
         values[ri].append(self.cells[ri][ci].value())
     return values
-  
-  def print(self):
-    for row in self.cells:
-      line = "".join(map(lambda x: str(x), row))
-      print("|" + line + "|\n")
 
   # Single iteration of solve algorithm.
   def __iteration(self):
