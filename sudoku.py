@@ -11,7 +11,7 @@ class Sudoku:
       row = []
       for ci in range(0, 9):
         cell = Cell()
-        value = array[0][ri][ci]
+        value = array[ri][ci]
         if(value != None):
           cell.set(value)
         row.append(cell)
