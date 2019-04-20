@@ -1,13 +1,12 @@
 # Represents single cell of sudoku
-# Contains specific value or list of possible values.
 class Cell:
   def __init__(self):
     self.__value = None
-    self.__possible = list(range(1, 10))
+    self.__candidates = list(range(1, 10))
 
   def set(self, value):
     self.__value = value
-    self.__possible = []
+    self.__candidates = []
 
   # Returns value of cell or None if not set
   def value(self):
@@ -24,26 +23,26 @@ class Cell:
   def calculate_value(self, cells_of_slice):
     if(self.has_value()):
       return
-    if(len(self.__possible) == 1):
-      self.set(self.__possible[0])
+    if(len(self.__candidates) == 1):
+      self.set(self.__candidates[0])
       return True
-    for possible in self.__possible:
+    for candidate in self.__candidates:
       unique = True
       for cell_of_slice in cells_of_slice:
         if(self is cell_of_slice):
           continue
-        if(possible in cell_of_slice.__possible):
+        if(candidate in cell_of_slice.__candidates):
           unique = False
       if(unique):
-        self.set(possible)
+        self.set(candidate)
         return True
     return False
 
-  # Removes values from list of possible values
+  # Removes values from list of candidates
   def discard_values(self, values):
     for value in values:
-      if(value in self.__possible):
-        self.__possible.remove(value)
+      if(value in self.__candidates):
+        self.__candidates.remove(value)
   
   def has_value(self):
     return self.__value != None
