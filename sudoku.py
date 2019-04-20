@@ -29,7 +29,7 @@ class Sudoku:
     for ri in range(0, 9):
       values.append([])
       for ci in range(0, 9):
-        values[ri].append(self.cells[ri][ci].value())
+        values[ri].append(self.cells[ri][ci].value)
     return values
 
   # Single iteration of solve algorithm.

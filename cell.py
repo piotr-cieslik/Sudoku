@@ -1,17 +1,13 @@
 # Represents single cell of sudoku
 class Cell:
   def __init__(self):
-    self.__value = None
-    self.__candidates = list(range(1, 10))
+    self.value = None
+    self.candidates = list(range(1, 10))
 
   def set(self, value):
-    self.__value = value
-    self.__candidates = []
+    self.value = value
+    self.candidates = []
 
-  # Returns value of cell or None if not set
-  def value(self):
-    return self.__value
-  
   # Calculates value of the cell in context of current slice.
   # Slice can be row, column or block.
   # Returns True when value was found and set or False when not.
@@ -24,15 +20,15 @@ class Cell:
   def calculate_value(self, cells_of_slice):
     if(self.has_value()):
       return
-    if(len(self.__candidates) == 1):
-      self.set(self.__candidates[0])
+    if(len(self.candidates) == 1):
+      self.set(self.candidates[0])
       return True
-    for candidate in self.__candidates:
+    for candidate in self.candidates:
       unique = True
       for cell_of_slice in cells_of_slice:
         if(self is cell_of_slice):
           continue
-        if(candidate in cell_of_slice.__candidates):
+        if(candidate in cell_of_slice.candidates):
           unique = False
       if(unique):
         self.set(candidate)
@@ -42,11 +38,11 @@ class Cell:
   # Removes values from list of candidates
   def discard_values(self, values):
     for value in values:
-      if(value in self.__candidates):
-        self.__candidates.remove(value)
+      if(value in self.candidates):
+        self.candidates.remove(value)
   
   def has_value(self):
-    return self.__value != None
+    return self.value != None
 
   def __str__(self):
-    return str(self.__value) if self.has_value() else " "
+    return str(self.value) if self.has_value() else " "

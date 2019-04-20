@@ -19,7 +19,7 @@ class Slice:
   def valid(self):
     values = [0] * 9
     for cell in self.__cells:
-      index = cell.value() - 1
+      index = cell.value - 1
       if(values[index] == 1):
         return False
       values[index] = 1
@@ -28,4 +28,4 @@ class Slice:
   def __values(self):
     for cell in self.__cells:
       if(cell.has_value()):
-        yield cell.value()
+        yield cell.value
