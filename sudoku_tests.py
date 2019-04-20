@@ -2,7 +2,7 @@ import unittest
 from sudoku import Sudoku
 
 # Sudokus taken from https://dingo.sbs.arizona.edu/~sandiway/sudoku/examples.html
-class SudokuTest(unittest.TestCase):
+class SudokuTests(unittest.TestCase):
   def test_solve_easy(self):
     _ = None
     missing = [
