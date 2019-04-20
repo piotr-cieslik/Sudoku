@@ -12,8 +12,9 @@ class Cell:
   def value(self):
     return self.__value
   
-  # Calculates value of the cell.
-  # Returns True when value was set or False when not.
+  # Calculates value of the cell in context of current slice.
+  # Slice can be row, column or block.
+  # Returns True when value was found and set or False when not.
   # Algorithm:
   #   - Do nothing when cell value is already set.
   #   - If single available value left, this value will be set as cell value.
