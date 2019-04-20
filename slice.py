@@ -2,30 +2,30 @@
 # It can be column, row or 3x3 square.
 class Slice:
   def __init__(self, cells):
-    self.__cells = cells
+    self.cells = cells
 
   def discard_used_values(self):
-    values = list(self.__values())
-    for cell in self.__cells:
+    values = list(self.values())
+    for cell in self.cells:
       cell.discard_values(values)
 
   # Returns true when value found, returns false otherwise.
   def calculate_value(self):
-    for cell in self.__cells:
-      if(cell.calculate_value(self.__cells)):
+    for cell in self.cells:
+      if(cell.calculate_value(self.cells)):
         return True
     return False
 
   def valid(self):
     values = [0] * 9
-    for cell in self.__cells:
+    for cell in self.cells:
       index = cell.value - 1
       if(values[index] == 1):
         return False
       values[index] = 1
     return True
 
-  def __values(self):
-    for cell in self.__cells:
+  def values(self):
+    for cell in self.cells:
       if(cell.has_value()):
         yield cell.value
