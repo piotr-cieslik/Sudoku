@@ -40,9 +40,9 @@ class Sudoku:
         cell = self.cells[ri][ci]
         if(cell.has_value()):
           continue
-        row = self.__row(ri)
-        column = self.__column(ci)
-        square = self.__square(ri, ci)
+        row = self.row(ri)
+        column = self.column(ci)
+        square = self.square(ri, ci)
         cell.discard_values(row.values())
         cell.discard_values(column.values())
         cell.discard_values(square.values())
@@ -55,20 +55,20 @@ class Sudoku:
     return new_value
 
   # Returns column of specific index (zero based)
-  def __column(self, index):
+  def column(self, index):
     cells = []
     for ri in range(0, 9):
       cells.append(self.cells[ri][index])
     return Slice(cells)
 
   # Returns row of specific index (zero based)
-  def __row(self, index):
+  def row(self, index):
     return Slice(self.cells[index])
 
   # Return 3x3 square of sudoku containing cell of specific index
   # ri - row index <1, 9>
   # ci - column index <1, 9>
-  def __square(self, ri, ci):
+  def square(self, ri, ci):
     row = math.floor(ri / 3)
     column = math.floor(ci / 3)
     cells = []
