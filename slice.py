@@ -29,3 +29,6 @@ class Slice:
     for cell in self.cells:
       if(cell.has_value()):
         yield cell.value
+
+  def __iter__(self):
+    return map(lambda x: x.value, self.cells)
