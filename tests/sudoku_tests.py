@@ -1,4 +1,6 @@
 import unittest
+import sys
+sys.path.append('.')
 from sudoku import Sudoku
 
 # Sudokus taken from https://dingo.sbs.arizona.edu/~sandiway/sudoku/examples.html

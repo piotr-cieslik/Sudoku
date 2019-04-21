@@ -1,4 +1,6 @@
 import unittest
+import sys
+sys.path.append('.')
 from cell import Cell
 from slice import Slice
 
