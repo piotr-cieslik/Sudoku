@@ -35,8 +35,8 @@ class Backtracking:
     self.sudoku.cells[ri][ci] = value
     row = self.sudoku.row(ri)
     column = self.sudoku.column(ci)
-    square = self.sudoku.square(ri, ci)
-    valid = row.valid() and column.valid() and square.valid()
+    block = self.sudoku.block(ri, ci)
+    valid = row.valid() and column.valid() and block.valid()
 
     # If sudoku is valid, try to solve next value.
     if(valid):

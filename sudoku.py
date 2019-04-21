@@ -21,10 +21,10 @@ class Sudoku:
   def row(self, index):
     return Slice(self.cells[index])
 
-  # Return 3x3 square of sudoku containing cell of specific index
+  # Return 3x3 block of sudoku containing cell of specific index
   # ri - row index <1, 9>
   # ci - column index <1, 9>
-  def square(self, ri, ci):
+  def block(self, ri, ci):
     row = math.floor(ri / 3)
     column = math.floor(ci / 3)
     cells = []
