@@ -2,6 +2,7 @@ import unittest
 import sys
 sys.path.append('.')
 from sudoku import Sudoku
+from backtracking import Backtracking
 
 # Sudokus taken from https://dingo.sbs.arizona.edu/~sandiway/sudoku/examples.html
 class SudokuTests(unittest.TestCase):
@@ -31,10 +32,9 @@ class SudokuTests(unittest.TestCase):
     ]
 
     sudoku = Sudoku(missing)
-    sudoku.solve()
-    actual = sudoku.cells
+    Backtracking(sudoku).solve()
 
-    self.assertTrue(self.__are_arrays_equal(expected, actual))
+    self.assertTrue(self.__are_arrays_equal(expected, sudoku.cells))
 
   def test_solve_intermediate(self):
     _ = None
@@ -62,10 +62,9 @@ class SudokuTests(unittest.TestCase):
     ]
 
     sudoku = Sudoku(missing)
-    sudoku.solve()
-    actual = sudoku.cells
+    Backtracking(sudoku).solve()
 
-    self.assertTrue(self.__are_arrays_equal(expected, actual))
+    self.assertTrue(self.__are_arrays_equal(expected, sudoku.cells))
 
   def test_solve_difficult(self):
     _ = None
@@ -93,10 +92,9 @@ class SudokuTests(unittest.TestCase):
     ]
 
     sudoku = Sudoku(missing)
-    sudoku.solve()
-    actual = sudoku.cells
+    Backtracking(sudoku).solve()
 
-    self.assertTrue(self.__are_arrays_equal(expected, actual))
+    self.assertTrue(self.__are_arrays_equal(expected, sudoku.cells))
 
   def __are_arrays_equal(self, a, b):
     fa = [val for sublist in a for val in sublist]
