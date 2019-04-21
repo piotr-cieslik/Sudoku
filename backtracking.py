@@ -33,13 +33,9 @@ class Backtracking:
     
     # Assign value to cell and verify correctness.
     self.sudoku.cells[ri][ci] = value
-    row = self.sudoku.row(ri)
-    column = self.sudoku.column(ci)
-    block = self.sudoku.block(ri, ci)
-    valid = row.valid() and column.valid() and block.valid()
 
     # If sudoku is valid, try to solve next value.
-    if(valid):
+    if(self.sudoku.row(ri).valid() and self.sudoku.column(ci).valid() and self.sudoku.block(ri, ci).valid()):
       if(ri == 8 and ci == 8):
         return True
       for x in range(1, 10):
