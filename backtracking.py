@@ -10,6 +10,11 @@ class Backtracking:
   # Returns true when solution was found or false otherwise.
   def solve(self):
     (ri, ci) = self.first_empty_cell()
+    # Check if next empty cell exist.
+    # It's not possible to solve, solved sudoku.
+    if(ri == None):
+      return False
+    
     for x in range(1, 10):
       if(self.__iteration(ri, ci, x)):
         return True
