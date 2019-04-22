@@ -38,7 +38,15 @@ class Backtracking:
       # If not, returns true.
       if(ri_next == None):
         return True
+      # Algorithm enhancement.
+      # Do not check values that occure in row, column or block of next cell.
+      invalid_values = list(filter(lambda x: x != None,\
+        list(self.sudoku.row(ri_next)) +\
+        list(self.sudoku.column(ci_next)) +\
+        list(self.sudoku.block(ri_next, ci_next))))
       for x in range(1, 10):
+        if(x in invalid_values):
+          continue
         if(self.__iteration(ri_next, ci_next, x)):
           return True
     
