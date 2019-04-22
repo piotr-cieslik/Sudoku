@@ -1,19 +1,17 @@
-# Class contains implementation of backtracking algorithm.
-# It's brute force approach, that ensures finding a solution, if the solution exists.
+# Backtracking algorithm is a brute force approach,
+# that ensures finding a solution, if the solution exists.
 # Parameters:
 #   sudoku - instance of Sudoku class
 class Backtracking:
   def __init__(self, sudoku):
     self.sudoku = sudoku
 
-  # Method tries to solves sudoku.
+  # Tries to solve sudoku.
   # Returns true when solution was found or false otherwise.
   def solve(self):
     (ri, ci) = self.first_empty_cell()
-    # Check if next empty cell exist.
-    # It's not possible to solve, solved sudoku.
-    if(ri == None):
-      return False
+    if(ri == None): # Check if next empty cell exist.
+      return False # It's not possible to solve solved sudoku.
 
     for x in self.valid_values_of_cell(ri, ci):
       if(self.__iteration(ri, ci, x)):
@@ -30,26 +28,21 @@ class Backtracking:
   #   ci - column index of current cell
   #   value - value of current cell
   def __iteration(self, ri, ci, value):   
-    # Assign value to cell and verify correctness.
     self.sudoku.cells[ri][ci] = value
-
-    # If sudoku is valid, try to solve next value.
     valid =\
       self.sudoku.row(ri).valid() and\
       self.sudoku.column(ci).valid() and\
       self.sudoku.block(ri, ci).valid()
-    if(valid):
+    if(valid): # If sudoku is valid, try to solve next value.
       (ri_next, ci_next) = self.next_empty_cell(ri, ci)
-      # Check if next empty cell exist.
-      # If not, returns true.
-      if(ri_next == None):
+      if(ri_next == None): # Check if next empty cell exist.
         return True
 
       for x in self.valid_values_of_cell(ri_next, ci_next):
         if(self.__iteration(ri_next, ci_next, x)):
           return True
     
-    # If sudoku is not valid, clear value of the cell and return false.
+    # If sudoku is not valid, clear rollback set value and return false.
     self.sudoku.cells[ri][ci] = None
     return False
 

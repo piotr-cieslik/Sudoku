@@ -1,7 +1,8 @@
 import math
 
-# Pass the array of arrays (9x9) with initial values of sudoku.
-# Missing sudoku values should be indicated by None values.
+# Class represents sudoku board.
+# Parameters:
+#   cells - Array of arrays (9x9) with initial values of sudoku. Missing values should be set to None.
 class Sudoku:
   def __init__(self, cells):
     self.cells = cells
@@ -33,6 +34,8 @@ class Sudoku:
         cells.append(self.cells[row * 3 + ri][column * 3 + ci])
     return Slice(cells)
 
+# Represents row, column or block of sudoku as a flat lists of 9 elements.
+# It's can be iterated by values.
 class Slice:
   def __init__(self, values):
     self.__values = values
