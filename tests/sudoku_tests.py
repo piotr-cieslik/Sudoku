@@ -7,24 +7,17 @@ from data import Data
 
 class SudokuTests(unittest.TestCase):
   def test_solve_easy(self):
-    data = Data.easy()
-    sudoku = Sudoku(data.puzzle)
-    Backtracking(sudoku).solve()
-
-    self.assertTrue(self.__are_arrays_equal(data.solution, sudoku.cells))
+    self.__test_backtracking(Data.easy())
 
   def test_solve_intermediate(self):
-    data = Data.intermediate()
-    sudoku = Sudoku(data.puzzle)
-    Backtracking(sudoku).solve()
-
-    self.assertTrue(self.__are_arrays_equal(data.solution, sudoku.cells))
+    self.__test_backtracking(Data.intermediate())
 
   def test_solve_difficult(self):
-    data = Data.difficult()
+    self.__test_backtracking(Data.difficult())
+
+  def __test_backtracking(self, data):
     sudoku = Sudoku(data.puzzle)
     Backtracking(sudoku).solve()
-
     self.assertTrue(self.__are_arrays_equal(data.solution, sudoku.cells))
 
   def __are_arrays_equal(self, a, b):
