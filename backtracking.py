@@ -14,10 +14,11 @@ class Backtracking:
     # It's not possible to solve, solved sudoku.
     if(ri == None):
       return False
-    
-    for x in range(1, 10):
+
+    for x in self.valid_values_of_cell(ri, ci):
       if(self.__iteration(ri, ci, x)):
         return True
+        
     return False
 
   # Single iteration of algorithm.
@@ -43,21 +44,26 @@ class Backtracking:
       # If not, returns true.
       if(ri_next == None):
         return True
-      # Algorithm enhancement.
-      # Do not check values that occure in row, column or block of next cell.
-      invalid_values = list(filter(lambda x: x != None,\
-        list(self.sudoku.row(ri_next)) +\
-        list(self.sudoku.column(ci_next)) +\
-        list(self.sudoku.block(ri_next, ci_next))))
-      for x in range(1, 10):
-        if(x in invalid_values):
-          continue
+
+      for x in self.valid_values_of_cell(ri_next, ci_next):
         if(self.__iteration(ri_next, ci_next, x)):
           return True
     
     # If sudoku is not valid, clear value of the cell and return false.
     self.sudoku.cells[ri][ci] = None
     return False
+
+  # Returns sequence of valid values of the cell.
+  # It's algorithm enhancement.
+  def valid_values_of_cell(self, ri, ci):
+    invalid_values = list(filter(lambda x: x != None,\
+      list(self.sudoku.row(ri)) +\
+      list(self.sudoku.column(ci)) +\
+      list(self.sudoku.block(ri, ci))))
+    for value in range(1, 10):
+      if(value in invalid_values):
+        continue
+      yield value
 
   def first_empty_cell(self):
     if(self.sudoku.cells[0][0] == None):
