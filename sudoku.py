@@ -46,3 +46,6 @@ class Slice:
         return False
       occurences[value - 1] = 1
     return True
+
+  def __iter__(self):
+    return iter(self.__values)
