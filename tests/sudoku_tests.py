@@ -15,6 +15,9 @@ class SudokuTests(unittest.TestCase):
   def test_solve_difficult(self):
     self.__test_backtracking(Data.difficult())
 
+  def test_solve_not_fun(self):
+    self.__test_backtracking(Data.not_fun())
+
   def __test_backtracking(self, data):
     sudoku = Sudoku(data.puzzle)
     Backtracking(sudoku).solve()
